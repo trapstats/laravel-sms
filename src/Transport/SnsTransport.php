@@ -28,8 +28,6 @@ class SnsTransport implements TransportContract
      */
     public function send(Sms $message): ?SentMessage
     {
-        $from = $message->getFrom() ?: $this->options['from'];
-
         foreach ($message->getTo() as $to) {
             try {
                 $this->client->publish([
@@ -40,14 +38,6 @@ class SnsTransport implements TransportContract
                             'DataType' => 'String',
                             'StringValue' => 'Transactional' // $message->getDeliveryType(),
                         ],
-                        ...($from
-                            ? [
-                                'AWS.MM.SMS.OriginationNumber' => [
-                                    'DataType' => 'String',
-                                    'StringValue' => $from,
-                                ]
-                            ]
-                            : [])
                     ]
                 ]);
             } catch (SnsException) {
