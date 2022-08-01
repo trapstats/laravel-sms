@@ -40,14 +40,14 @@ class SnsTransport implements TransportContract
                             'DataType' => 'String',
                             'StringValue' => 'Transactional' // $message->getDeliveryType(),
                         ],
-                        ...$from
+                        ...($from
                             ? [
                                 'AWS.MM.SMS.OriginationNumber' => [
                                     'DataType' => 'String',
                                     'StringValue' => $from,
                                 ]
                             ]
-                            : []
+                            : [])
                     ]
                 ]);
             } catch (SnsException) {
