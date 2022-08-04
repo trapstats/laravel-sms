@@ -32,13 +32,7 @@ class SnsTransport implements TransportContract
             try {
                 $this->client->publish([
                     'Message' => $message->getContent(),
-                    'PhoneNumber' => $to,
-                    'MessageAttributes' => [
-                        'AWS.SNS.SMS.SMSType' => [
-                            'DataType' => 'String',
-                            'StringValue' => 'Transactional' // $message->getDeliveryType(),
-                        ],
-                    ]
+                    'PhoneNumber' => $to
                 ]);
             } catch (SnsException) {
                 return null;
